@@ -49,4 +49,5 @@ $Else
     ProgName$=command$(0) ' Argc[0] is program name
 $End If
 Return
+'   WinDir$  SysDir$  CurDir$  ProgName$  TempDir$
 

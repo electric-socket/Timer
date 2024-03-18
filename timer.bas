@@ -1,10 +1,12 @@
 $Console:Only
+$Let SAY = 0
+
 Option _Explicit
 '$Include:'CollectExactTimeTop.bi'
 
 Const FALSE = 0
 Const TRUE = -1
-Const Version = "V1.0.5"
+Const Version = "V1.0.7"
 Const OurName = "TdarcosTimer"
 
 
@@ -14,11 +16,10 @@ Dim Shared As Integer Year, Month, Day, Hour, Minute, Second
 Dim Shared Year$, Month$, Day$, WeekDay$, Minute$, Second$, AmPm$
 Dim Shared As String DateString, OldDateString
 Dim Shared WinDir$, SysDir$, CurDir$, ProgName$, TempDir$
-
+Dim Shared As Integer cf, cb, Acf, Acb
 
 '' **** Main Progran ****
 On Error GoTo Recover
-
 
 FlagOn = FALSE
 FlagOff = FALSE
@@ -30,13 +31,19 @@ TimerID$ = ""
 Const Hi1 = 5
 Const Hi2 = 8
 
+'Alt colors
+Acb = 1 'Blue
+Acf = 7 'White
+
 
 If _CommandCount = 0 Then
     Print "No command given; try --help"
     ' We do want to pause here
     End
 End If
-
+$If SAY Then
+    Print "Cmd Count" + Str$(_CommandCount)
+$End If
 
 F = FreeFile
 GetDateAndTIME
@@ -49,40 +56,91 @@ Next
 
 ' Process the commands
 For K% = 1 To _CommandCount
+
+    $If SAY Then
+        say "K%=" + Str$(K%)
+    $End If
+
     D$ = Left$(UCmd$(K%), 1)
     If (D$ >= "0") And (D$ <= "9") Then
+
+        $If SAY Then
+            say " @num=" + Cmd$(K%)
+
+        $End If
         If TimerID$ <> "" Then GoTo OnlyOne
         TimerID$ = Cmd$(K%)
         _Continue
     End If
+    $If SAY Then
+        say " IH CASE #" + Str$(K%) + "UCmd=" + UCmd$(K%)
+    $End If
+
     Select Case UCmd$(K%)
         Case "ON", "START", "BEGIN"
+
+            $If SAY Then
+                say " @ON"
+            $End If
             FlagOn = TRUE
             If FlagOff Then GoTo ChooseOne
             _Continue
         Case "OFF", "STOP", "END"
+
+            $If SAY Then
+                say " @OFF"
+            $End If
+
             FlagOff = TRUE
             If FlagOn Then GoTo ChooseOne
             _Continue
         Case "/H", "-H", "--HELP"
+
+            $If SAY Then
+                say " @HELP"
+            $End If
+
             ' Help overrides all other options
             GoTo GiveHelp
         Case "-B", "/B", "--BATCH"
+            $If SAY Then
+                say " @BATCH"
+            $End If
+
             FlagBatch = TRUE
             _Continue
         Case "-V", "/V", "--VERSION"
+
+            $If SAY Then
+                say " @VER"
+            $End If
+
             ' Version overrides all other option
             FlagVer = TRUE
             GoTo GiveHelp
         Case Else
+
+            $If SAY Then
+                say " @ELSE"
+            $End If
 
             Print "Command #"; K%; ", '"; Cmd$(K%); "' not understood. Try --help"
             GoTo quit
     End Select
 Next
 
+$If SAY Then
+    say " in test" + Chr$(13) + Chr$(10)
+$End If
+
+
+
 If FlagOn Then
     ' Start a timer
+
+    $If SAY Then
+        say " @START"
+    $End If
 
     FileName$ = TempDir$ + OurName + TimerID$ + ".tmp"
 
@@ -100,16 +158,15 @@ If FlagOn Then
 
     Close #F
 
-    Print FileName$
     GoTo quit
 End If
 
 If FlagOff Then
+    $If SAY Then
+        say " @OFF"
+    $End If
     Dim As Integer PrintAND, SYear, SMonth, SDay, SHour, SMinute, SSecond
     ' Tell listener to quit
-
-
-    If Command$(2) <> "" Then TimerID$ = _Trim$(Command$(2))
 
     FileName$ = TempDir$ + OurName + TimerID$ + ".tmp"
 
@@ -121,8 +178,12 @@ If FlagOff Then
     Line Input #F, OldDateString
     Close #F
     Print
-    Print "Timer"; TimerID$; " started "; OldDateString
-    Print "Timer"; TimerID$; " stopped "; DateString
+    Print "Timer";
+    If TimerID$ <> "" Then Print " ";
+    Print TimerID$; " started "; OldDateString
+    Print "Timer";
+    If TimerID$ <> "" Then Print " ";
+    Print TimerID$; " stopped "; DateString
 
     ' Calculate elapsed time
 
@@ -186,7 +247,7 @@ Print "%Warning: No command was given. No action was taken."
 ' Fall thru
 GoTo quit
 GiveHelp:
-Print "Tdarcos Timer - Version "; Version
+Print "TDarcos Timer - Version "; Version
 ' Exit if only wants version number
 If FlagVer GoTo quit
 Print "Usage:"
@@ -261,10 +322,19 @@ GoTo quit
 OnlyOne:
 Print "Only 1 timer at a time can be set or retrieved."
 GoTo quit
+
 quit:
 If FlagBatch Then System
+
 End
 
 '$Include:'directory_environment.bi'
 '$Include:'CollectExactTimeBottom.bi'
 
+Sub say (L$)
+    cf = _DefaultColor
+    cb = _BackgroundColor
+    Color Acf, Acb
+    Print L$
+    Color cf, cb
+End Sub
