@@ -5,7 +5,8 @@ and it shouldn't be too hard to do (famous last words). By the time I got finish
 there already is one. Then again, if everyone does that, nothing new would be created.) But anyway, here it is.  
 
 There are two ways to use this program:  
-1. To build from source, you need to already have installed, or download and install a copy, of QB64 Phoenix Edition, available from the [QB64 Phoenix Edition repository](https://github.com/QB64-Phoenix-Edition/QB64pe)  
+1. To build from source, you need to already have installed, or download and install a copy, of QB64 Phoenix Edition, available from
+the [QB64 Phoenix Edition repository](https://github.com/QB64-Phoenix-Edition/QB64pe)  
 Having installed QB64pe, just load timer.bas in the QB64pe IDE, click on `Run`, `Change Command$`, type `on` in the box and click on `Ok`. 
 Next  click on `Run`, `Start` and it will create a time event. To tell Timer the event is completed, in the QB64pe IDE, click on `Run`, 
 `Change Command$`, type `off` in the box and click on `Ok`. Nex  click on  `Run`, `Start` and it will show starting time, ending time, and elapsed time.
@@ -13,8 +14,8 @@ Next  click on `Run`, `Start` and it will create a time event. To tell Timer the
 
 In either case, you will now have timer.exe, which you can use the same way from the DOS command line, by typing `timer on` to start a timer, 
 and `timer off`. Or, you can have multiple timers, just give them an identifier starting with a number, like `timer 6 on` or `timer on 6`. If you 
-use a timer number, you have to remember that identifier, e.g. the event started by `timer start 5' or `timer on 6', each has to be stopped 
-with `timer off 5' or `timer stop 6'.
+use a timer number, you have to remember that identifier, e.g. the event started by `timer start 5` or `timer on 6`, each has to be stopped 
+with `timer off 5` or `timer stop 6`.
 
 You could set up a couple of desktop shortcuts, one running a `timer on` and the other running a `timer off'. 
 
