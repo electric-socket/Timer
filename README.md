@@ -32,7 +32,7 @@ The SHA512 checksum for timer.exe is
 953bba6c0bfccc2eb4b92a5e01927ef5b3675c1bc86c76d329209ee78659de3f3a18a31b6ee4c8aea00708d8418158272732b7088a82bb9419f6749805f5870c  
 
 Current Version is 1.0.7
-# Non-windowws users
+# Non-Windows users
 While the program was written for windows, conceivably it could be used on Linux or MacOS. The only Windows-specific code is used to retrieve certain file information, and has been marked with `$IF WINDOWS THEN`. Linux and Mac have a simpler, standard method of their own for the information I need.
 
 
