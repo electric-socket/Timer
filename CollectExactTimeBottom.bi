@@ -7,6 +7,8 @@ Sub GetDateAndTIME
     ' While it is extremely unlikely, the date could change between the time
     ' and the date is collected. So we get the Date first, then the time,
     ' then the date again.
+
+    'bugtest
     Date1$ = Date$
     TimeA$ = Time$
     Date2$ = Date$
@@ -29,7 +31,7 @@ Sub GetDateAndTIME
 
     '    We keep certain variables as shared
     '    Year, Month, Day, Hour, Minute, Second  are the number values
-    '    Year$, Month$, Day$, WeekDay$, AmPm$    are the strings for display
+    '    Year$, Month$,( Day$, WeekDay$, AmPm$    are the strings for display
     '    Minute$   because time display of 9 minutes after is "09"
     '    Second$   for the same reason
 
@@ -39,7 +41,7 @@ Sub GetDateAndTIME
     Year = Val(Year$)
     Month = Val(Month$):
     Day = Val(Day$)
-    WeekDay$ = GetDay$
+    WeekDay$ = GetDay$(Month, Day, Year)
     If Hour > 12 Then
         Hour = Hour - 12
         AmPm$ = "P.M."
@@ -52,15 +54,18 @@ Sub GetDateAndTIME
     DateString = WeekDay$ + ", " + Month$ + Str$(Day) + ", " + Year$ + " at" + Str$(Hour) + ":" + Minute$ + ":" + Second$ + " " + AmPm$
 End Sub
 
-Function GetDay$
+Function GetDay$(month%,day%,year%)
     Dim As Integer M, Y, C, S1, S2, S3, WkDay
     ' It doesn't specify, but this is probably Zeller's Congruence
+    m=month%
+    y=year%
+
     If M < 3 Then M = M + 12: Y = Y - 1
     C = Y \ 100: Y = Y Mod 100
     S1 = (C \ 4) - (2 * C) - 1
     S2 = (5 * Y) \ 4
     S3 = 26 * (M + 1) \ 10
-    WkDay = (S1 + S2 + S3 + Day) Mod 7
+    WkDay = (S1 + S2 + S3 + Day%) Mod 7
     If WkDay < 0 Then WkDay = WkDay + 7
     GetDay$ = DayList(WkDay)
 End Function
