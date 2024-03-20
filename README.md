@@ -19,8 +19,8 @@ and `timer off`. Or, you can have multiple timers, just give them an identifier 
 use a timer number, you have to remember that identifier, e.g. the event started by `timer start 5` or `timer on 6`, each has to be stopped 
 with `timer off 5` or `timer stop 6`.
 
-You could set up a couple of desktop shortcuts, one running a `timer on` and the other running a `timer off`. 
-##Features
+You could set up a couple of desktop shortcuts, one running a `timer on` and the other running a `timer off`.
+## Features
 The program takes advantage of a QB64 feature, when a program reaches an END statement it keeps the program window open until a requested keypress 
 is made. This wait can be dispensed with by using '/b', '-b` or `--batch`. And you can always get the list of commands and options with the --help option. 
 
